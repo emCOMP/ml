@@ -29,3 +29,12 @@ def log_likelihood(model, x, y):
     affirm = ~deny
     #the first column of prob indicates the log likelihood of being denials, while the second ... being affirms
     return prob[deny, 0].sum() + prob[affirm, 1].sum()
+
+def naive_bayes(data, min_df, alpha):
+    vectorizer = CountVectorizer(min_df= min_df)
+    X, Y = make_xy(data, vectorizer)
+    X_train, X_test, Y_train, Y_test = split_train_test(X, Y)
+    fitted_model = MultinomialNB(alpha = alpha)
+    fitted_model.fit(X_train, Y_train)
+    print fitted_model.score(X_train, Y_train)
+    print fitted_model.score(X_test, Y_test)
